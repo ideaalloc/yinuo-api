@@ -1,0 +1,16 @@
+antPatterns:
+- /health
+- /authFailure
+- /index**
+- /assets/**
+- /swagger**
+- /webjars/**
+- /configuration/**
+- /v2/**
+- /images/**
+- /raml/**
+
+appClientPatterns:
+- /v1/sms/vcode/**
+- /v1/flights/**
+- /v1/users/register

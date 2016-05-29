@@ -1,0 +1,46 @@
+#%RAML 0.8
+title: 宜诺科技API服务
+version: v1
+baseUri: http://api.yinuo-tech.com/v1/
+securitySchemes:
+  - oauth_2_0:
+      description: |
+        Yinuo supports OAuth 2.0 for authenticating all API requests.
+      type: OAuth 2.0
+      describedBy:
+        queryParameters:
+          oauth2_access_token:
+            description: |
+              Used to send a valid OAuth 2 access token
+            type: string
+      settings:
+        authorizationUri: http://api.yinuo-tech.com/oauth/authorize
+        accessTokenUri: http://api.yinuo-tech.com/oauth/token
+        authorizationGrants: code
+securedBy: [oauth_2_0]
+/flights/{id}:
+  get:
+    displayName: 获取航班
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "code": 0,
+                "message": "successfully",
+                "result": {
+                  "id": 1,
+                  "origin": "Nashville",
+                  "destination": "Dallas",
+                  "airline": "Spring Ways",
+                  "flightNumber": "OAUTH2",
+                  "traveler": "Greg Turnquist"
+                }
+              }
+  uriParameters:
+    id:
+      type: integer
+      default: 1
+      example: 1
+      displayName: 航班ID

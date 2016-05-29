@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yinuo.api.repository.dao.FlightDao">
+
+    <cache/>
+
+    <resultMap id="flightMap" type="com.yinuo.api.repository.po.Flights">
+        <id property="id" column="ID"/>
+        <result property="origin" column="ORIGIN"/>
+        <result property="destination" column="DESTINATION"/>
+        <result property="airline" column="AIRLINE"/>
+        <result property="flightNumber" column="FLIGHT_NUMBER"/>
+        <result property="traveler" column="TRAVELER"/>
+    </resultMap>
+
+    <select id="findById" parameterType="Long" resultMap="flightMap" flushCache="true" useCache="false">
+        SELECT ID, ORIGIN, DESTINATION, AIRLINE, FLIGHT_NUMBER, TRAVELER FROM API_FLIGHTS WHERE ID = #{id}
+    </select>
+
+</mapper>

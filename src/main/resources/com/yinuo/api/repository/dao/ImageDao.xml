@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yinuo.api.repository.dao.ImageDao">
+
+    <cache/>
+
+    <resultMap id="imageMap" type="com.yinuo.api.repository.po.Images">
+        <id property="id" column="ID"/>
+        <result property="largeUrl" column="LARGE_URL"/>
+        <result property="middleUrl" column="MIDDLE_URL"/>
+        <result property="smallUrl" column="SMALL_URL"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insertImages" useGeneratedKeys="false" parameterType="com.yinuo.api.repository.po.Images"
+            keyProperty="id">
+        INSERT INTO API_IMAGES (ID, LARGE_URL, MIDDLE_URL, SMALL_URL, CREATE_TIME) VALUES (#{id}, #{largeUrl}, #{middleUrl}, #{smallUrl}, #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertImageMapping" useGeneratedKeys="false" parameterType="com.yinuo.api.repository.po.ImageMapping">
+        INSERT INTO API_IMAGE_MAPPING (IMAGE, TYPE, RELATED_ID) VALUES (#{image}, #{type}, #{relatedId})
+    </insert>
+
+    <select id="selectByRelatedIdAndType" parameterType="map" resultMap="imageMap">
+        SELECT AI.ID, AI.LARGE_URL, AI.MIDDLE_URL, AI.SMALL_URL, AI.CREATE_TIME
+            FROM API_IMAGES AI
+              JOIN
+            (SELECT IMAGE
+              FROM API_IMAGE_MAPPING AIM
+              WHERE AIM.RELATED_ID = #{relatedId}
+              AND AIM.TYPE = #{type}) TT
+            ON (AI.ID = TT.IMAGE)
+            ORDER BY AI.CREATE_TIME DESC
+    </select>
+
+</mapper>

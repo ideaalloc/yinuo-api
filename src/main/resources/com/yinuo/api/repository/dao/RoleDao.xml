@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yinuo.api.repository.dao.RoleDao">
+
+    <cache/>
+
+    <resultMap id="roleMap" type="com.yinuo.api.repository.po.Roles">
+        <id property="uid" column="UID"/>
+        <result property="authority" column="AUTHORITY"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="false" parameterType="com.yinuo.api.repository.po.Roles">
+        INSERT INTO API_ROLES (UID, AUTHORITY) VALUES (#{uid}, #{authority})
+    </insert>
+
+    <select id="count" parameterType="com.yinuo.api.repository.po.Roles" resultType="int">
+        SELECT COUNT(*)
+        FROM API_ROLES R
+        WHERE R.UID = #{uid}
+        AND R.AUTHORITY = #{authority}
+    </select>
+
+    <select id="findAuthorities" parameterType="Long" resultType="string">
+        SELECT AUTHORITY FROM API_ROLES WHERE UID = #{uid}
+    </select>
+
+</mapper>

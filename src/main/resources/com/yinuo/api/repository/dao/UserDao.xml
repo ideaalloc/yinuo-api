@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yinuo.api.repository.dao.UserDao">
+
+    <cache/>
+
+    <resultMap id="userMap" type="com.yinuo.api.repository.po.Users">
+        <id property="id" column="ID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="passwordHash" column="PASSWORD_HASH"/>
+        <result property="status" column="STATUS"/>
+        <result property="createTime" column="CREATE_TIME"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="false" parameterType="com.yinuo.api.repository.po.Users" keyProperty="id">
+        INSERT INTO API_USERS (ID, USERNAME, PASSWORD_HASH, STATUS) VALUES (#{id}, #{username}, #{passwordHash}, #{status})
+    </insert>
+
+    <select id="count" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM API_USERS U
+        WHERE U.USERNAME = #{username}
+    </select>
+
+    <select id="countById" parameterType="Long" resultType="int">
+        SELECT COUNT(*)
+        FROM API_USERS U
+        WHERE U.ID = #{id}
+    </select>
+
+    <select id="selectPasswordHashByUsername" parameterType="String" resultType="string">
+        SELECT U.PASSWORD_HASH
+        FROM API_USERS U
+        WHERE U.USERNAME = #{username}
+    </select>
+
+    <select id="selectAuthoritiesByUsername" parameterType="String" resultType="string">
+        SELECT R.AUTHORITY
+          FROM API_ROLES R
+            JOIN
+            (
+              SELECT U.ID
+              FROM API_USERS U
+              WHERE U.USERNAME = #{username}
+            ) TT
+            ON (R.UID = TT.ID)
+    </select>
+
+    <select id="selectIdByUsername" parameterType="String" resultType="long">
+        SELECT U.ID
+        FROM API_USERS U
+        WHERE U.USERNAME = #{username}
+    </select>
+
+</mapper>

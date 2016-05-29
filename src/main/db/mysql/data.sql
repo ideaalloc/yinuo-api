@@ -1,0 +1,2 @@
+INSERT INTO API_FLIGHTS (ID, ORIGIN, DESTINATION, AIRLINE, FLIGHT_NUMBER, TRAVELER)
+VALUES (1, 'Nashville', 'Dallas', 'Spring Ways', 'OAUTH2', 'Greg Turnquist');
